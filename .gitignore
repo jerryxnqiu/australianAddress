@@ -1,0 +1,5 @@
+.venv/
+G-NAF/
+temp/
+*.csv
+dataGovAuAddress_downloadlist.py
