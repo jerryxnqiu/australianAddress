@@ -1,5 +1,6 @@
 .venv/
-G-NAF/
+.vscode/
 temp/
 *.csv
-dataGovAuAddress_downloadlist.py
+*.json
+*.yaml
