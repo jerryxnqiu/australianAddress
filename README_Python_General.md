@@ -1,12 +1,22 @@
 # **General Python Script -> Docker Image -> Google Cloud Registry -> Kubernetes Pods/Containers**
 
 ## **1. Setup gcloud environement**
-### **1.1 Initial Setup**
+### **1.1 
+- kubectl create namespace localdev
+- kubectl create secret docker-registry gcr-json-key \
+                        --docker-server=eu.gcr.io \
+                        --docker-username=_json_key \
+                        --docker-password="$(cat ~/json-key-file.json)" \
+                        --docker-email=any@valid.email
+- Thanks to **"https://blog.container-solutions.com/using-google-container-registry-with-kubernetes"**
+
+### **1.2 Initial Setup**
 - sudo /Users/$USER/Downloads/google-cloud-sdk/install.sh
 - sudo /Users/$USER/Downloads/google-cloud-sdk/bin/gcloud init
 - export PATH=$PATH:/Users/$USER/Downloads/google-cloud-sdk/bin
 
-### **1.2 Below command might need to run whenever start the terminal**
+
+### **1.3 Below command might need to run whenever start the terminal**
 - sudo gcloud auth configure-docker
 
 ## **2. Create Docker Image and push to GCR**
@@ -17,7 +27,7 @@
                      --label 'com.microsoft.created-by=visual-studio-code' '/Users/$USER/Desktop/<Docker Image Name>' \
                      --platform linux/amd64
 
-- **-platform linux/amd64** is to solve "The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64/v4) and no specific platform was requested" or do **export DOCKER_DEFAULT_PLATFORM=linux/amd64**
+- If image create platform does not match the deployment platform, error like "The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64/v4) and no specific platform was requested" might occur. Need to add **"-platform linux/amd64"** to the docker image build command or do **"export DOCKER_DEFAULT_PLATFORM=linux/amd64"**
 
 ### **2.2 Tag the Image with GCR location**
 - docker tag <Docker Image Name> gcr.io/<gcp-project-ID>/<Docker Image Name>
@@ -44,7 +54,10 @@
 
 ## **6. Commands to check deployment performacne and issues**
 
-### **6.1 Getting details about Init Containers**
+### **6.1 To run from a bash session
+- kubectl exec -i -t mycontainer /bin/bash
+
+### **6.2 Getting details about Init Containers**
 - kubectl describe pod <pod-name>
 - kubectl exec -it <pod-name> -- /bin/bash
 - kubectl logs <pod-name> <container-name>
