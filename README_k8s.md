@@ -21,12 +21,12 @@
     sudo docker run hello-world
     ```
 ---
-### 2. Congigue the forwarding IPv4 and letting iptables see bridged traffic
+### 2. To disable the swap
 ```sh
 - sudo swapoff -a
 ```
 ---
-### 3. Congigue the forwarding IPv4 and letting iptables see bridged traffic
+### 3. Configure the forwarding IPv4 and letting iptables see bridged traffic
 - https://kubernetes.io/docs/setup/production-environment/container-runtimes/#forwarding-ipv4-and-letting-iptables-see-bridged-traffic
 ```sh
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
